@@ -22,6 +22,7 @@
     * TypeActe
         * id (int)
         * nom (varchar)
+        * date (date)
     * Personne
         * id (int)
         * nom (varchar)
@@ -29,5 +30,4 @@
         * sexe (char)
         * naissance (date)
     * *EtreMarié*
-        * date (date)
     * *EtreParent*
