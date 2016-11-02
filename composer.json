@@ -1,0 +1,6 @@
+{
+    "name": "moraccizano/vendee",
+    "require": {
+        "laravel/laravel": "^5.3"
+    }
+}
