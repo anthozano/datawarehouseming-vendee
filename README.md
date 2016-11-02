@@ -12,22 +12,22 @@
 ## Normalization des données
 ### Création des tables
 * Table pour:
-* * Lieux
-* * * id (int)
-* * * nom (varchar)
-* * * dept (int)
-* * Acte
-* * * id (int)
-* * * numVue (varchar)
-* * TypeActe
-* * * id (int)
-* * * nom (varchar)
-* * Personne
-* * * id (int)
-* * * nom (varchar)
-* * * prenom (varchar)
-* * * sexe (char)
-* * * naissance (date)
-* * *EtreMarié*
-* * * date (date)
-* * *EtreParent*
+    * Lieux
+        * id (int)
+        * nom (varchar)
+        * dept (int)
+    * Acte
+        * id (int)
+        * numVue (varchar)
+    * TypeActe
+        * id (int)
+        * nom (varchar)
+    * Personne
+        * id (int)
+        * nom (varchar)
+        * prenom (varchar)
+        * sexe (char)
+        * naissance (date)
+     * *EtreMarié*
+        * date (date)
+    * *EtreParent*
