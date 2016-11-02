@@ -1,0 +1,3 @@
+# Git ignores files and repos
+vendor/
+composer.lock
