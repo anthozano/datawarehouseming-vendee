@@ -28,6 +28,6 @@
         * prenom (varchar)
         * sexe (char)
         * naissance (date)
-     * *EtreMarié*
+    * *EtreMarié*
         * date (date)
     * *EtreParent*
