@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'CSVImportController@dashBoard');
+Route::post('/', 'CSVImportController@import');
