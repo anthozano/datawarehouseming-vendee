@@ -1,0 +1,20 @@
+@extends('default')
+
+@section('content')
+    <h2>Statistiques</h2>
+    <table>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+@endsection

@@ -11,5 +11,10 @@
 |
 */
 
-Route::get('/', 'CSVImportController@dashBoard');
-Route::post('/', 'CSVImportController@import');
+Route::get('/', 'DashboardController@home')->name('home');
+
+Route::get('dashboard', 'DashboardController@stats')->name('stats');
+
+Route::get('import', 'DashboardController@import')->name('import');
+Route::post('import', 'DashboardController@processImportMariage')->name('processImportMariage');
+Route::post('import', 'DashboardController@processImportDeces')->name('processImportDeces');
