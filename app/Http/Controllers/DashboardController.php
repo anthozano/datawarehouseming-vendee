@@ -20,7 +20,8 @@ class DashboardController extends Controller
     }
 
     public function processImportMariage(Request $request) {
-        request()->file('csv')->store('csv');
+        dd($request);
+        $request->file('csv')->store('csv');
         return view('dashboard/import/result');
     }
 

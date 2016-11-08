@@ -1,30 +1,13 @@
 @extends('default')
 @section('content')
     <h2>Import d'acte de mariages</h2>
-    <p>Format des colonnes à respecter :</p>
-    <table>
-        <tr>
-            <th>id</th>
-            <th>typeActe</th>
-            <th>epoux</th>
-            <th>prenomEpoux</th>
-            <th>prenomPereEpoux</th>
-            <th>nomMereEpoux</th>
-            <th>prenomMereEpoux</th>
-            <th>epouse</th>
-            <th>prenomEpouse</th>
-            <th>prenomPereEpouse</th>
-            <th>nomMereEpouse</th>
-            <th>prenomMereEpouse</th>
-            <th>lieu</th>
-            <th>dept</th>
-            <th>dates</th>
-            <th>numVue</th>
-        </tr>
-    </table>
-    {{ Form::open(['url' => 'import', 'method' => 'POST', 'files' => true]) }}
+    {{ Form::open(['route' => 'import', 'method' => 'POST', 'files' => true]) }}
+        <div class="form-group">
             {{ Form::label('csv', 'Fichier CSV à importer') }}
             {{ Form::file('csv') }}
+        </div>
+        <div class="form-group">
             {{ Form::submit('Envoyer le fichier') }}
+        </div>
     {{ Form::close() }}
 @endsection
