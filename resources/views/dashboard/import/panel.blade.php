@@ -22,33 +22,9 @@
             <th>numVue</th>
         </tr>
     </table>
-    {{ Form::open(['url' => 'import', 'method' => 'POST', 'file' => true]) }}
+    {{ Form::open(['url' => 'import', 'method' => 'POST', 'files' => true]) }}
             {{ Form::label('csv', 'Fichier CSV à importer') }}
             {{ Form::file('csv') }}
-            {{ Form::submit('Envoyer le fichier', ['name' => 'mariage']) }}
-    <h2>Import d'acte de décès</h2>
-    <p>Format des colonnes à respecter :</p>
-    <table>
-        <tr>
-            <th>id</th>
-            <th>typeActe</th>
-            <th>nom</th>
-            <th>prenom</th>
-            <th>age</th>
-            <th>nomPere</th>
-            <th>prenomPere</th>
-            <th>nomMere</th>
-            <th>prenomMere</th>
-            <th>lieu</th>
-            <th>dept</th>
-            <th>dateNaissance</th>
-            <th>numVue</th>
-        </tr>
-    </table>
-    {{ Form::close() }}
-    {{ Form::open(['url' => 'import', 'method' => 'POST', 'file' => true]) }}
-            {{ Form::label('csv', 'Fichier CSV à importer') }}
-            {{ Form::file('csv') }}
-            {{ Form::submit('Envoyer le fichier', ['name' => 'deces']) }}
+            {{ Form::submit('Envoyer le fichier') }}
     {{ Form::close() }}
 @endsection
