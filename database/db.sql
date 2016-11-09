@@ -131,6 +131,40 @@ CREATE TABLE IF NOT EXISTS `vendee`.`maries` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `vendee`.`raw_mariage` (
+  `id` VARCHAR(255),
+  `typeActe` VARCHAR(255),
+  `epoux` VARCHAR(255),
+  `prenomEpoux` VARCHAR(255),
+  `prenomPereEpoux` VARCHAR(255),
+  `nomMereEpoux` VARCHAR(255),
+  `prenomMereEpoux` VARCHAR(255),
+  `epouse` VARCHAR(255),
+  `prenomEpouse` VARCHAR(255),
+  `prenomPereEpouse` VARCHAR(255),
+  `nomMereEpouse` VARCHAR(255),
+  `prenomMereEpouse` VARCHAR(255),
+  `lieu` VARCHAR(255),
+  `dept` VARCHAR(255),
+  `dates` VARCHAR(255),
+  `numVue` VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS `vendee`.`raw_deces` (
+  `id` VARCHAR(255),
+  `typeActe` VARCHAR(255),
+  `nom` VARCHAR(255),
+  `prenom` VARCHAR(255),
+  `age` VARCHAR(255),
+  `nomPere` VARCHAR(255),
+  `prenomPere` VARCHAR(255),
+  `nomMere` VARCHAR(255),
+  `prenomMere` VARCHAR(255),
+  `lieu` VARCHAR(255),
+  `dept` VARCHAR(255),
+  `dateNaissance` VARCHAR(255),
+  `numVue` VARCHAR(255)
+);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
