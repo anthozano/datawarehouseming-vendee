@@ -10,6 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema vendee
 -- -----------------------------------------------------
+DROP DATABASE IF EXISTS `vendee`;
 
 -- -----------------------------------------------------
 -- Schema vendee
@@ -116,16 +117,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vendee`.`maries` (
   `id_epoux` INT NULL,
-  `id_femme` INT NULL,
+  `id_epouse` INT NULL,
   INDEX `fk_marie_personne1_idx` (`id_epoux` ASC),
-  INDEX `fk_marie_personne2_idx` (`id_femme` ASC),
+  INDEX `fk_marie_personne2_idx` (`id_epouse` ASC),
   CONSTRAINT `fk_marie_personne1`
     FOREIGN KEY (`id_epoux`)
     REFERENCES `vendee`.`personnes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_marie_personne2`
-    FOREIGN KEY (`id_femme`)
+    FOREIGN KEY (`id_epouse`)
     REFERENCES `vendee`.`personnes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -169,3 +170,11 @@ CREATE TABLE IF NOT EXISTS `vendee`.`raw_deces` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+LOAD DATA LOCAL INFILE "F:/bdd/tp7/datamining-vendee/resources/raw/deces_L3.csv"
+INTO TABLE `vendee`.`raw_deces`
+FIELDS TERMINATED BY ',' ENCLOSED BY '' LINES TERMINATED BY '\n';
+
+LOAD DATA LOCAL INFILE "F:/bdd/tp7/datamining-vendee/resources/raw/mariages_L3.csv"
+INTO TABLE `vendee`.`raw_mariage`
+FIELDS TERMINATED BY ',' ENCLOSED BY '' LINES TERMINATED BY '\n';
