@@ -22,7 +22,7 @@ class DashboardController extends Controller {
         $nbPers = Personne::count();
         $nbMaries = Marie::count();
         $nbMorts = Acte::where('id_personne_marie','=',null)->count();
-        $moyAgeMorts = Personne::where()
+        $moyAgeMorts = Personne::where();
         return view('dashboard/stats',compact("nbPers","nbMaries","nbMorts"));
     }
 
