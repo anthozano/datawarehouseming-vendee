@@ -37,7 +37,7 @@ class DashboardController extends Controller {
     public function processImport() {
         $counter = 1;
         $colNumbers = DB::table('raw_deces')->count();
-        while ($counter < $colNumbers) {
+        while ($counter < 1000) { //$counter < $colNumbers
         $rawDeces = RawDeces::find($counter++);
             if (!preg_match("#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#", $rawDeces->dateNaissance)) {
                 $date_naissance = null;
@@ -118,7 +118,7 @@ class DashboardController extends Controller {
         }
         $counter = 1;
         $colNumbers = DB::table('raw_mariage')->count();
-        while ($counter < $colNumbers) {
+        while ($counter < 1000) { // $counter < $colNumbers
             $rawMariage = RawMariages::find($counter++);
 
             /*
