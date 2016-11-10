@@ -14,7 +14,7 @@
                 <td>{{ $personne->prenom }}</td>
                 <td>{{ $personne->sexe }}</td>
                 <td>{{ $personne->naissance }}</td>
-                <td>{{ $personne->acte->type->date }}</td>
+                <td><a class="btn btn-primary" href="{{ route('personnes.edit', $personne)}}">Editer</a></td>
             </tr>
             @endforeach
         </table>

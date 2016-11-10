@@ -47,16 +47,17 @@ class DashboardController extends Controller {
     }
 
     private function getDateInterval($age) {
-        if (preg_match('/^n/a$/', $age)) {
+        if (preg_match('#^n/a$#', $age)) {
             $interval = null;
         } else {
-            if (preg_match('/^ans?$/i', $age)) {
+            $ans = $mois = $jours = 0;
+            if (preg_match('#^ans?$#i', $age)) {
                 $ans = explode(" ans", $age);
                 $ans = intval($ans[0]);
-            } elseif (preg_match('/^mois?$/i', $age)) {
+            } elseif (preg_match('#^mois?$#i', $age)) {
                 $mois = explode(" mois", $age);
                 $mois = intval($mois[0]);
-            } elseif (preg_match('/^jours?$/', $age)) {
+            } elseif (preg_match('#^jours?$#', $age)) {
                 $jours = explode(" jours", $age);
                 $jours = intval($jours[0]);
             }
@@ -67,7 +68,7 @@ class DashboardController extends Controller {
 
     private function processDate($date) {
         if (!preg_match("#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#", $date)) {
-
+            $date = \DateTime::createFromFormat();
         } else {
             $date = null;
         }
@@ -80,7 +81,7 @@ class DashboardController extends Controller {
 
     public function processImport() {
         $colNumbers = DB::table('raw_deces')->count();
-        for ($counter = 1; $counter < 100; $counter++) { //$counter < $colNumbers
+        for ($counter = 1; $counter < 2000; $counter++) { //$counter < $colNumbers
             $rawDeces = RawDeces::find($counter);
             if (!preg_match("#^[0-9]{2}/[0-9]{2}/[0-9]{4}$#", $rawDeces->dateNaissance)) {
                 $date_naissance = null;
@@ -144,7 +145,7 @@ class DashboardController extends Controller {
 
         $counter = 1;
         $colNumbers = DB::table('raw_mariage')->count();
-        while ($counter < 100) { // $counter < $colNumbers
+        while ($counter < 2000) { // $counter < $colNumbers
             $rawMariage = RawMariages::find($counter++);
 
             /*
