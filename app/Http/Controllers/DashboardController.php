@@ -19,7 +19,11 @@ class DashboardController extends Controller {
     }
 
     public function stats() {
-        return view('dashboard/stats');
+        $nbPers = Personne::count();
+        $nbMaries = Marie::count();
+        $nbMorts = Acte::where('id_personne_marie','=',null)->count();
+        $moyAgeMorts = Personne::where()
+        return view('dashboard/stats',compact("nbPers","nbMaries","nbMorts"));
     }
 
     public function import() {
