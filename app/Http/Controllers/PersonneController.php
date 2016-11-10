@@ -12,7 +12,7 @@ class PersonneController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $personnes = Personne::take('10')->get();
+        $personnes = Personne::take(100)->get();
         return view('personnes.index', compact('personnes'));
     }
 
@@ -22,7 +22,7 @@ class PersonneController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return view('personnes.create');
     }
 
     /**
@@ -32,7 +32,8 @@ class PersonneController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $personne = Personne::create($request->all());
+        return redirect(route('personnes.show', $personne));
     }
 
     /**
@@ -42,7 +43,8 @@ class PersonneController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+        $personne = Personne::find($id);
+        return view('personnes.show', compact('personne'));
     }
 
     /**
@@ -64,7 +66,9 @@ class PersonneController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $personne = Personne::findOrFail($id);
+        $personne->update($request->all());
+        return redirect(route('personnes.edit', $personne));
     }
 
     /**
@@ -74,6 +78,7 @@ class PersonneController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        $personne = Personne::destroy($id);
+        return view('personne.destroy', compact('personne'));
     }
 }

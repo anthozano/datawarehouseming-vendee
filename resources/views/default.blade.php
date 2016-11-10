@@ -11,6 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
 
 </head>
 
@@ -30,8 +31,15 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ route('stats')}}">Statistiques</a></li>
+                <li class="dropdown">
+                <li><a href="{{ route('stats') }}">Statistiques</a></li>
                 <li><a href="{{ route('import') }}">Import de CSV</a></li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gérer les données<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ route('personnes.index')}}">Personnes</a></li>
+                    </ul>
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -48,7 +56,8 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
-@yield('script')
+
 </body>
 </html>

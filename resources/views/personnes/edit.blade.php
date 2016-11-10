@@ -2,7 +2,7 @@
 
 @section('content')
     <h2>Editer une personne</h2>
-    {{ Form::open(['method' => 'put']) }}
+    {{ Form::open(['method' => 'put', 'url' => route('personnes.update', $personne)]) }}
     <div class="form-group">
         {{ Form::label('nom', 'Nom') }}
         {{ Form::text('nom', $personne->nom, ['class' => 'form-control']) }}
@@ -13,12 +13,12 @@
     </div>
     <div class="form-group">
         {{ Form::label('sexe', 'Sexe') }}
-        {{ Form::text('prenom', $personne->sexe, ['class' => 'form-control']) }}
+        {{ Form::text('sexe', $personne->sexe, ['class' => 'form-control']) }}
     </div>
     <div class="form-group">
         {{ Form::label('date', 'Date de naissance') }}
         {{ Form::date('date', $personne->naissance, ['class' => 'form-control']) }}
     </div>
-    {{ Form::submit('Envoyer') }}
+    {{ Form::submit('Envoyer', ['class' => 'btn btn-primary']) }}
     {{ Form::close() }}
 @endsection

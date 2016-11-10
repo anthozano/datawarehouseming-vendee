@@ -1,70 +1,32 @@
 # Création de bases de données et API pour les archives départementales de la région Vendéene.
 
 ---
-
-## Binome
-* Hugo Moracchini
-* Anthony Lozano
+$$Hugo~Moracchini~et~Anthony~Lozano $$
 
 ---
 
 ## Introduction
+### Choix d'outils
+Afin de pouvoir mieux travailler,  nous avons décidé de choisir un ensemble d'outils commun. 
 
-### Solution choisie
+* Pour notre serveur local PHP nous avons choisi *WampServer* pour ca simplicité d'utilisation.
+* Pour synchroniser nos modification et gérer le versioning nous avons crée un projet sur *gitlab* et nous avons utilisé *git* par ligne de commande ou intégré avec notre IDE.
+* L'IDE que nous avions choisi est *PHPStorm* car il est extrêmement puissant et est gratuit pour les étudiants.
+* Pour les bases de données nous avons utilisé *MySQL workbench* pour créer les schema de la base de donnes.
+* Finalement pour créer l'API nous avons utilisé *Laravel* comme framework PHP car c'est un framework puissant, flexible, et adapté aux petits projets.
 
-Pour ces travaux nous avons choisi de créer une application web, en effet les interfaces graphiques sont très simple a gérer et d'un point de vue comptatibilité et déployement les solutions webs ont leurs avantages ...
-
-Familiés avec PHP orienté objet et le développement web, nous avons choisi un assortiment d'outils de développement afin de s'exempter des taches les plus pénibles et chronophages compte tenu des délais très courts. C'est pourquoi nous utilisons Laravel, qui fonctionne sur une architecture 'pseudo' MVC, il est très souple et l'ORM fournis avec est extrêmement simple à utiliser.
-
-Nous avions prévu un certains nombre de fonctionnalités pour cette petite application mais malheurement nous avons manqué de temps.
-
-**Ce qui était prévu (avec ambition) :**
-* Tableau de bord
-    * Gestion utilisateurs
-        * Connexions et gestion des droits
-    * Import de fichiers CSV
-    * Traitement des donnèes bruts (fichiers CSV) pour insertion dans la base
-    * Gestion des données
-        * CRUD disponible sur toute les entités de la base
-        * Formulaire d'ajout d'actes
-        * Outil de correction de données incohérentes et incorrectes
-    * Exploitation des données
-        * Vue générale
-        * Visualisation avancées des données des tables
-            * Graphiques
-            * Maximums
-            * Minimums
-            * Moyennes ...
-
-**Ce qui a été fait :**
-* Tableau de bord
-    * Traitement des donnèes bruts (fichiers CSV) pour insertion dans la base
-    * Gestion des données
-        * CRUD disponible sur la table `personnes`
-    * Exploitation des données
-        * Vue générale avec 1 graphique
-
-### Composition du dépot
-
-* LozanoAnthony-MoracchiniHugo-CR.[md|html|pdf]
-    * Compte rendu lui même
-* vendee.db.sql
-    * Export de la base de données
-
-### Installation du l'application
-
-
-
-### Outils utilisés
-
-* Versionning : GIT avec le projet héberger sur gitlab.com
-* Plateforme de développement (Apache/MySQL/PHP: WampServer
-* Composer : Gestionnaire de dépendances PHP
-* Framework Backend (PHP) : Laravel
-* Framework Frontend (HTML/CSS/JS) : Bootstrap
-* Plugin JS pour les graphiques : Chart.js
-* Conception de la base de données : MySQL Workbench
-* IDE : PhpStorm
+---
+### Sommaire
+* Analyse des données
+* Création des schémas de la base de données
+* Ajout et organisation des données dans la base
+* l'API
+	* Statistiques
+	* Requêtes
+	* Insertions
+	* Modifications
+	* Gestion de Roles
+* Conclusion
 
 ---
  
@@ -73,7 +35,7 @@ Tout simplement: afin de savoir ce qu'on doit faire, il faut qu'on sache exactem
 
 ## Création des schémas de la base de données
 Nous avons décidé de créer une seul base unie contenant des tables pour les décès et les marriages. L'outil MySQL workbench nous a permis de tout créer avec une interface graphique et donc il était inutile de taper une seule ligne de SQL.
-![Diagramme](https://i.imgur.com/N1exGLC.png)
+<img src="https://i.imgur.com/N1exGLC.png">
 "Enfants" et "maries" représentent les relations entre des personnes, avec la cardinalité représentante. La table "actes" regroupe les actes de décès et de mariage et la table "types" permet de différencier entre les deux.
 
 ## Ajout et organization des données dans la base
