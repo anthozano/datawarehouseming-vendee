@@ -1,33 +1,30 @@
-# Projet d'organization des bases de données de marriages et déces pour le departement de la Vendée
+# Projet d'organisation des bases de données de marriages et déces pour le departement de la Vendée
 
-## Problèmatiques:
+## Participants
+* Anthony Lozano
+* Hugo Moracchini
+
+## Problématiques
 * Inconsistence de données (memes noms et mots écrits de manieres differentes)
 * Données manquantes
-* Creation d'un tableau de bord
+* Création d'un tableau de bord
 
-## Déroulement Probable
-* Normalization des données
+## Déroulement probable
+* Normalisation des données
 * Création d'un tableau de bord en utilisant un framework PHP (laravel)
 
-## Normalization des données
-### Création des tables
-* Table pour:
-    * Lieux
-        * id (int)
-        * nom (varchar)
-        * dept (int)
-    * Acte
-        * id (int)
-        * numVue (varchar)
-    * TypeActe
-        * id (int)
-        * nom (varchar)
-        * date (date)
-    * Personne
-        * id (int)
-        * nom (varchar)
-        * prenom (varchar)
-        * sexe (char)
-        * naissance (date)
-    * *EtreMarié*
-    * *EtreParent*
+## Normalisation des données
+### Modélisation de la base
+
+![Diagramme](database/db.png)
+
+## Fonctionnalités
+
+* Aider des généalogistes à analyser l’histoire de ce département (faire des stats) :
+    * nombre d'enregistrements
+    * nombre de noms de familles différents
+    * nombre de ville différentes
+* Pour  chaque  colonne :   
+    * calculer le nombre de valeurs
+    * calculer la valeur min/moyenne/max 
+* Proposer les modifications classiques (insertion, modification, suppression) et plusieurs comptes utilisateurs (administrateur, visualisation)

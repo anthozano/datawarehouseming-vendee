@@ -11,6 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body style="padding-top:50px">
@@ -25,11 +26,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Tableau de bord</a>
+            <a class="navbar-brand" href="{{ route('home') . '/' }}">Tableau de bord</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ route('home') . '/' }}">Home</a></li>
                 <li><a href="{{ route('stats')}}">Statistiques</a></li>
                 <li><a href="{{ route('import') }}">Import de CSV</a></li>
             </ul>
@@ -48,5 +48,7 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
+@yield('script')
 </body>
 </html>

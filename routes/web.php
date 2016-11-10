@@ -15,5 +15,7 @@ Route::get('/', 'DashboardController@home')->name('home');
 
 Route::get('dashboard', 'DashboardController@stats')->name('stats');
 
+Route::resource('personnes', 'PersonneController');
+
 Route::get('import', 'DashboardController@import')->name('import');
 Route::post('import', 'DashboardController@processImport')->name('processImport');
