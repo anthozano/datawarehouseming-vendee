@@ -3,14 +3,16 @@
 @section('content')
     <h2>Statistiques</h2>
     <H2>Nombre de personnes dans la base de données:</H2>
-    <table>
+    <table class="table">
         <tr>
             <th>Total</th>
             <th>Mariés</th>
+            <th>Morts</th>
         </tr>
         <tr>
             <th>{{$nbPers}}</th>
-            <th></th>
+            <th>{{$nbMaries}}</th>
+            <th>{{$nbMorts}}</th>
         </tr>
 
     </table>
