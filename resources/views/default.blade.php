@@ -25,13 +25,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="#">Tableau de bord</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="{{ route('home') . '/' }}">Home</a></li>
-                <li><a href="{{ route('stats')}}">Stats</a></li>
-                <li><a href="{{ route('import') }}">Import</a></li>
+                <li><a href="{{ route('stats')}}">Statistiques</a></li>
+                <li><a href="{{ route('import') }}">Import de CSV</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -48,9 +48,5 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="../../dist/js/bootstrap.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

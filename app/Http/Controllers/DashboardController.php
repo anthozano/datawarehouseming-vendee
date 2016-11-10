@@ -26,10 +26,28 @@ class DashboardController extends Controller {
         return view('dashboard/import/panel');
     }
 
-    public function naToNull($value) {
+    private function naToNull($value) {
         return $value == 'n/a' ? null : $value;
     }
 
+    private function getDateInterval($age) {
+        if (preg_match('#^n/a$#', $age)) {
+            $interval = null;
+        } else {
+            if (preg_match('/ans/', $age)) {
+                $ans = explode(" ans", $age);
+                $ans = intval($ans[0]);
+            } elseif (preg_match('/mois/', $age)) {
+                $mois = explode(" mois", $age);
+                $mois = intval($mois[0]);
+            } elseif (preg_match('/jours/', $age)) {
+                $jours = explode(" jours", $age);
+                $jours = intval($jours[0]);
+            }
+            $interval = new \DateInterval("P{$ans}Y{$mois}M{$jours}D");
+        }
+        return $interval;
+    }
     public function processImport() {
         $counter = 1;
         $colNumbers = DB::table('raw_deces')->count();
@@ -56,7 +74,7 @@ class DashboardController extends Controller {
                 if (is_null($tmp)) {
                     $age_deces = null;
                 } else {
-                    $age_deces = new \DateInterval("P{$ans}Y{$mois}M{$jours}D");
+                    $age_deces = $this;
                     $date_deces = new \DateTime(str_replace('/', '-', $rawDeces->dateNaissance));
                     $date_deces->format('Y-m-d');
                     $date_deces->add($age_deces);
