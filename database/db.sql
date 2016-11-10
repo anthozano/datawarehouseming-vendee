@@ -171,10 +171,10 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-LOAD DATA LOCAL INFILE "F:/bdd/tp7/datamining-vendee/resources/raw/deces_L3.csv"
+LOAD DATA LOCAL INFILE "X:/datamining-vendee/resources/raw/deces_L3.csv"
 INTO TABLE `vendee`.`raw_deces`
 FIELDS TERMINATED BY ',' ENCLOSED BY '' LINES TERMINATED BY '\n';
 
-LOAD DATA LOCAL INFILE "F:/bdd/tp7/datamining-vendee/resources/raw/mariages_L3.csv"
+LOAD DATA LOCAL INFILE "X:/datamining-vendee/resources/raw/mariages_L3.csv"
 INTO TABLE `vendee`.`raw_mariage`
 FIELDS TERMINATED BY ',' ENCLOSED BY '' LINES TERMINATED BY '\n';
