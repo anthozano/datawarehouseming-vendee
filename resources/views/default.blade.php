@@ -33,13 +33,14 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                 <li><a href="{{ route('stats') }}">Statistiques</a></li>
-                <li><a href="{{ route('import') }}">Import de CSV</a></li>
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gérer les données<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ route('personnes.index')}}">Personnes</a></li>
                     </ul>
                 </li>
+                <li><a href="{{ route('import') }}">Traiter les données brutes</a></li>
+                <li><a href="#">Import de CSV</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
