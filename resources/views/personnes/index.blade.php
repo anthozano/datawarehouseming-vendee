@@ -7,6 +7,8 @@
             <th>Prenom</th>
             <th>Sexe</th>
             <th>Date naissance</th>
+            <th></th>
+            <th></th>
         </tr>
         @foreach($personnes as $personne)
             <tr>
