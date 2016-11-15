@@ -70,7 +70,7 @@ class DashboardController extends Controller {
         if (!is_null($age) && !is_null($naissance) && !is_null($this->checkDateFormat($naissance))) {
             $date = \DateTime::createFromFormat('d/m/Y', $naissance);
             $dateInterval = $this->getDateInterval($age);
-            return is_null($dateInterval) ?  null : $date->add($this->getDateInterval($age));
+            return is_null($dateInterval) ? null : $date->add($this->getDateInterval($age));
         } else {
             return null;
         }
@@ -91,100 +91,100 @@ class DashboardController extends Controller {
     }
 
     public function processImport() {
-        RawDeces::chunk(100, function ($rawDeces) {
-            foreach ($rawDeces as $rawDece) {
-                $personne = Personne::create([
-                    'nom' => $this->naToNull($rawDece->nom),
-                    'prenom' => $this->naToNull($rawDece->prenom),
-                    'naissance' => $this->processDate($rawDece->dateNaissance)
-                ]);
+        foreach (RawDeces::cursor() as $rawDece) {
 
+            $personne = Personne::create([
+                'nom' => $this->naToNull($rawDece->nom),
+                'prenom' => $this->naToNull($rawDece->prenom),
+                'naissance' => $this->processDate($rawDece->dateNaissance)
+            ]);
+
+            if (strcmp($rawDece->nomMere, 'n/a') == 0 && strcmp($rawDece->prenomMere, 'n/a') == 0) {
                 $mere = Personne::create([
                     'nom' => $this->naToNull($rawDece->nomMere),
                     'prenom' => $this->naToNull($rawDece->prenomMere),
                     'sexe' => 'F'
                 ]);
-
                 Enfant::create([
                     'id_enfant' => $personne->id,
                     'id_parent' => $mere->id
                 ]);
-
+            }
+            
+            if (strcmp($rawDece->nomPere, 'n/a') == 0 && strcmp($rawDece->prenomPere, 'n/a') == 0) {
                 $pere = Personne::create([
                     'nom' => $this->naToNull($rawDece->nomPere),
                     'prenom' => $this->naToNull($rawDece->prenomPere),
                     'sexe' => 'M'
                 ]);
-
                 Enfant::create([
                     'id_enfant' => $personne->id,
                     'id_parent' => $pere->id
                 ]);
-
-                $lieu = Lieu::create([
-                    'nom' => $this->naToNull($rawDece->lieu),
-                    'departement' => intval($this->naToNull($rawDece->dept))
-                ]);
-
-                $type = Type::create([
-                    'nom' => $this->naToNull($rawDece->typeActe),
-                    'date' => $this->getDateFromAge($rawDece->age, $rawDece->dateNaissance),
-                ]);
-
-                Acte::create([
-                    'numVue' => $this->naToNull($rawDece->numVue),
-                    'id_type_acte' => $type->id,
-                    'id_lieu'=> $lieu->id,
-                    'id_personne'=> $personne->id
-                ]);
-
-                $rawDece->delete();
             }
-        });
 
-        Rawmariages::chunk(100, function ($rawMariages) {
-            foreach ($rawMariages as $rawMariage) {
+            $lieu = Lieu::create([
+                'nom' => $this->naToNull($rawDece->lieu),
+                'departement' => intval($this->naToNull($rawDece->dept))
+            ]);
 
-                $epoux = Personne::create(['nom' => $this->naToNull($rawMariage->epoux), 'prenom' => $this->naToNull($rawMariage->prenomEpoux), 'sexe' => 'M']);
-                $epouxPere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouxPere), 'prenom' => $this->naToNull($rawMariage->prenomEpouxPere), 'sexe' => 'M']);
-                $epouxMere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouxMere), 'prenom' => $this->naToNull($rawMariage->prenomEpouxMere), 'sexe' => 'F']);
+            $type = Type::create([
+                'nom' => $this->naToNull($rawDece->typeActe),
+                'date' => $this->getDateFromAge($rawDece->age, $rawDece->dateNaissance),
+            ]);
 
-                Enfant::create(['id_enfant' => $epoux->id, 'id_parent' => $epouxPere->id]);
-                Enfant::create(['id_enfant' => $epoux->id, 'id_parent' => $epouxMere->id]);
+            Acte::create([
+                'numVue' => $this->naToNull($rawDece->numVue),
+                'id_type_acte' => $type->id,
+                'id_lieu' => $lieu->id,
+                'id_personne' => $personne->id
+            ]);
 
-                $epouse = Personne::create(['nom' => $this->naToNull($rawMariage->epoux), 'prenom' => $this->naToNull($rawMariage->prenomEpouse), 'sexe' => 'F']);
-                $epousePere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpousePere), 'prenom' => $this->naToNull($rawMariage->prenomEpousePere), 'sexe' => 'M']);
-                $epouseMere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouseMere), 'prenom' => $this->naToNull($rawMariage->prenomEpouseMere), 'sexe' => 'F']);
+            $rawDece->delete();
 
-                Enfant::create(['id_enfant' => $epouse->id, 'id_parent' => $epousePere->id]);
-                Enfant::create(['id_enfant' => $epouse->id, 'id_parent' => $epouseMere->id]);
+        };
 
-                Marie::create([
-                    'id_epoux' => $epoux->id,
-                    'id_epouse' => $epouse->id
-                ]);
+        foreach (RawMariages::cursor() as $rawMariage) {
 
-                $lieu = Lieu::create([
-                    'nom' => $this->naToNull($rawMariage->lieu),
-                    'departement' => $this->naToNull($rawMariage->dept)
-                ]);
+            $epoux = Personne::create(['nom' => $this->naToNull($rawMariage->epoux), 'prenom' => $this->naToNull($rawMariage->prenomEpoux), 'sexe' => 'M']);
+            $epouxPere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouxPere), 'prenom' => $this->naToNull($rawMariage->prenomEpouxPere), 'sexe' => 'M']);
+            $epouxMere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouxMere), 'prenom' => $this->naToNull($rawMariage->prenomEpouxMere), 'sexe' => 'F']);
 
-                $type = Type::create([
-                    'nom' => $this->naToNull($rawMariage->typeActe),
-                    'date' => $this->processDate($rawMariage->dates)
-                ]);
+            Enfant::create(['id_enfant' => $epoux->id, 'id_parent' => $epouxPere->id]);
+            Enfant::create(['id_enfant' => $epoux->id, 'id_parent' => $epouxMere->id]);
 
-                Acte::create([
-                    'numVue' => $this->naToNull($rawMariage->numVue),
-                    'id_lieu' => $lieu->id,
-                    'id_type_acte' => $type->id,
-                    'id_personne' => $epoux->id,
-                    'id_personne_marie' => $epouse->id
-                ]);
+            $epouse = Personne::create(['nom' => $this->naToNull($rawMariage->epoux), 'prenom' => $this->naToNull($rawMariage->prenomEpouse), 'sexe' => 'F']);
+            $epousePere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpousePere), 'prenom' => $this->naToNull($rawMariage->prenomEpousePere), 'sexe' => 'M']);
+            $epouseMere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouseMere), 'prenom' => $this->naToNull($rawMariage->prenomEpouseMere), 'sexe' => 'F']);
 
-                $rawMariage->delete();
-            }
-        });
+            Enfant::create(['id_enfant' => $epouse->id, 'id_parent' => $epousePere->id]);
+            Enfant::create(['id_enfant' => $epouse->id, 'id_parent' => $epouseMere->id]);
+
+            Marie::create([
+                'id_epoux' => $epoux->id,
+                'id_epouse' => $epouse->id
+            ]);
+
+            $lieu = Lieu::create([
+                'nom' => $this->naToNull($rawMariage->lieu),
+                'departement' => $this->naToNull($rawMariage->dept)
+            ]);
+
+            $type = Type::create([
+                'nom' => $this->naToNull($rawMariage->typeActe),
+                'date' => $this->processDate($rawMariage->dates)
+            ]);
+
+            Acte::create([
+                'numVue' => $this->naToNull($rawMariage->numVue),
+                'id_lieu' => $lieu->id,
+                'id_type_acte' => $type->id,
+                'id_personne' => $epoux->id,
+                'id_personne_marie' => $epouse->id
+            ]);
+
+            $rawMariage->delete();
+        };
 
         return view('dashboard/import/result');
     }
