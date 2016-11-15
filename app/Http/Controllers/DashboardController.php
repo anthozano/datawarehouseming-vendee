@@ -22,7 +22,6 @@ class DashboardController extends Controller {
         $nbPers = Personne::count();
         $nbMaries = Marie::count();
         $nbMorts = Acte::where('id_personne_marie', null)->count();
-        // $moyAgeMorts = Personne::where();
         $ageMoyenDeces = DB::select(
             DB::raw("
                 SELECT ROUND(AVG(DATEDIFF(t.date, p.naissance)/365)) AS age, YEAR(t.date) AS annee
@@ -34,6 +33,13 @@ class DashboardController extends Controller {
                 HAVING ROUND(AVG(DATEDIFF(t.date, p.naissance)/365)) > 0
             ")
         );
+        $ageMoyenDeces = Personne::whereNotNull('naissance')
+            ->has('acte.type')
+            ->get();
+//        var_dump($ageMoyenDeces[0]);
+        var_dump($ageMoyenDeces[0]->acte->type);
+        die();
+
         return view('dashboard/stats', compact("nbPers", "nbMaries", "nbMorts", "ageMoyenDeces"));
     }
 
@@ -90,6 +96,20 @@ class DashboardController extends Controller {
         return preg_match($format, $date) ? true : null;
     }
 
+    private function createParent($nom, $prenom, $sexe, Personne $enfant) {
+        if (strcmp($nom, 'n/a') == 0 && strcmp($prenom, 'n/a') == 0) {
+            $parent = Personne::create([
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'sexe' => $sexe
+            ]);
+            Enfant::create([
+                'id_enfant' => $enfant->id,
+                'id_parent' => $parent->id
+            ]);
+        }
+    }
+
     public function processImport() {
         foreach (RawDeces::cursor() as $rawDece) {
 
@@ -99,29 +119,8 @@ class DashboardController extends Controller {
                 'naissance' => $this->processDate($rawDece->dateNaissance)
             ]);
 
-            if (strcmp($rawDece->nomMere, 'n/a') == 0 && strcmp($rawDece->prenomMere, 'n/a') == 0) {
-                $mere = Personne::create([
-                    'nom' => $this->naToNull($rawDece->nomMere),
-                    'prenom' => $this->naToNull($rawDece->prenomMere),
-                    'sexe' => 'F'
-                ]);
-                Enfant::create([
-                    'id_enfant' => $personne->id,
-                    'id_parent' => $mere->id
-                ]);
-            }
-            
-            if (strcmp($rawDece->nomPere, 'n/a') == 0 && strcmp($rawDece->prenomPere, 'n/a') == 0) {
-                $pere = Personne::create([
-                    'nom' => $this->naToNull($rawDece->nomPere),
-                    'prenom' => $this->naToNull($rawDece->prenomPere),
-                    'sexe' => 'M'
-                ]);
-                Enfant::create([
-                    'id_enfant' => $personne->id,
-                    'id_parent' => $pere->id
-                ]);
-            }
+            $this->createParent($rawDece->nomMere, $rawDece->prenomMere, 'F', $personne);
+            $this->createParent($rawDece->nomPere, $rawDece->prenonPere, 'M', $personne);
 
             $lieu = Lieu::create([
                 'nom' => $this->naToNull($rawDece->lieu),
@@ -147,18 +146,12 @@ class DashboardController extends Controller {
         foreach (RawMariages::cursor() as $rawMariage) {
 
             $epoux = Personne::create(['nom' => $this->naToNull($rawMariage->epoux), 'prenom' => $this->naToNull($rawMariage->prenomEpoux), 'sexe' => 'M']);
-            $epouxPere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouxPere), 'prenom' => $this->naToNull($rawMariage->prenomEpouxPere), 'sexe' => 'M']);
-            $epouxMere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouxMere), 'prenom' => $this->naToNull($rawMariage->prenomEpouxMere), 'sexe' => 'F']);
-
-            Enfant::create(['id_enfant' => $epoux->id, 'id_parent' => $epouxPere->id]);
-            Enfant::create(['id_enfant' => $epoux->id, 'id_parent' => $epouxMere->id]);
+            $this->createParent($rawMariage->nomEpouxPere, $rawMariage->prenomEpouxPere, 'M', $epoux);
+            $this->createParent($rawMariage->nomEpouxMere, $rawMariage->prenomEpouxMere, 'F', $epoux);
 
             $epouse = Personne::create(['nom' => $this->naToNull($rawMariage->epoux), 'prenom' => $this->naToNull($rawMariage->prenomEpouse), 'sexe' => 'F']);
-            $epousePere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpousePere), 'prenom' => $this->naToNull($rawMariage->prenomEpousePere), 'sexe' => 'M']);
-            $epouseMere = Personne::create(['nom' => $this->naToNull($rawMariage->nomEpouseMere), 'prenom' => $this->naToNull($rawMariage->prenomEpouseMere), 'sexe' => 'F']);
-
-            Enfant::create(['id_enfant' => $epouse->id, 'id_parent' => $epousePere->id]);
-            Enfant::create(['id_enfant' => $epouse->id, 'id_parent' => $epouseMere->id]);
+            $this->createParent($rawMariage->nomEpouseMere, $rawMariage->prenomEpouseMere, 'F', $epouse);
+            $this->createParent($rawMariage->nomEpousePere, $rawMariage->prenomEpousePere, 'M', $epouse);
 
             Marie::create([
                 'id_epoux' => $epoux->id,
